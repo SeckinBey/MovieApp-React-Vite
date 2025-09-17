@@ -39,7 +39,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center p-3">
-        © 2025 Copyright:
+        © 2026 Copyright:
         <a className="text-white" href="#!">
           Movie App
         </a>

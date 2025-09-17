@@ -1,11 +1,3 @@
-import MovieList from "./MovieList";
-import WatchList from "./WatchList";
-
-export default function Main() {
-  return (
-    <>
-      <WatchList />
-      <MovieList />
-    </>
-  );
+export default function Main({ children }) {
+  return <main>{children}</main>;
 }
