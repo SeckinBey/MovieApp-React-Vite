@@ -1,9 +1,13 @@
 export default function Movie({ movieObj, onAddToList }) {
   return (
     <div className="col">
-      {movieObj.is_active && (
+      {
         <div className="card movie position-relative">
-          <img src={"/img/" + movieObj.image} alt="" className="card-img-top" />
+          <img
+            src={"https://image.tmdb.org/t/p/original/" + movieObj.poster_path}
+            alt=""
+            className="card-img-top"
+          />
           <div className="card-body">
             <h2 className="h6 card-title">{movieObj.title}</h2>
             <p className="card-text mb-0">{movieObj.description}</p>
@@ -20,7 +24,7 @@ export default function Movie({ movieObj, onAddToList }) {
             </button>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default function WatchList({
   return (
     <>
       {isWatchListOpen && (
-        <div className="container my-3">
+        <div className="my-3">
           <div className="card">
             <div className="card-header">
               <h2 className="title h5 mb-0">Watch List</h2>

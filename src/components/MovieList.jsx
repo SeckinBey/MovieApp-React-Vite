@@ -2,13 +2,13 @@ import Movie from "./Movie";
 
 export default function MovieList({ movies, onAddToList }) {
   return (
-    <div className="container my-3">
+    <div className="my-3">
       <div className="card">
         <div className="card-header">
           <h2 className="title h5 mb-0">Movie List</h2>
         </div>
         <div className="card-body">
-          {movies.filter((m) => m.is_active).length == 0 ? (
+          {movies.length == 0 ? (
             <div>Film bulunamadı</div>
           ) : (
             <div
