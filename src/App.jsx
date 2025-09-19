@@ -14,7 +14,7 @@ import WatchList from "./components/WatchList";
 
 const api_key = "4cd5b9057a539442ab11543bcaa3ded9";
 const page = 1;
-const query = "avengers";
+const query = "Avengers";
 const language = "en-US";
 
 export default function App() {
@@ -23,6 +23,7 @@ export default function App() {
   const [isWatchListOpen, setIsWatchListOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState(query);
 
   useEffect(() => {
     async function getMovies() {
@@ -30,7 +31,7 @@ export default function App() {
 
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&page=${page}&language=${language}`
+          `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchQuery}&page=${page}&language=${language}`
         );
 
         if (response.status === 401) {
@@ -62,7 +63,7 @@ export default function App() {
       setLoading(false);
     }
     getMovies();
-  }, []);
+  }, [searchQuery]);
 
   function handleAddToWatchList(movie) {
     const isAlreadyInWatchList = watchListMovies
@@ -81,7 +82,7 @@ export default function App() {
     <>
       <Header>
         <Logo />
-        <SearchForm />
+        <SearchForm searchQuery={searchQuery} setsearchQuery={setSearchQuery} />
         <WatchListButton
           movies={watchListMovies}
           onSetIsWatchListOpen={setIsWatchListOpen}
