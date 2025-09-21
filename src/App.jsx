@@ -9,6 +9,7 @@ import WatchListButton from "./components/WatchListButton";
 import ErrorMessage from "./components/ErrorMessage";
 import MovieList from "./components/MovieList";
 import WatchList from "./components/WatchList";
+import MovieDetails from "./components/MovieDetails";
 
 // import { movie_list } from "./data";
 
@@ -24,6 +25,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState(query);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     async function getMovies() {
@@ -34,19 +36,9 @@ export default function App() {
           `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchQuery}&page=${page}&language=${language}`
         );
 
-        if (response.status === 401) {
-          throw new Error("Invalid API key");
-        } else if (response.status === 404) {
-          throw new Error("The resource you requested could not be found.");
-        } else if (response.status === 500) {
-          throw new Error("Internal server error. Please try again later.");
-        } else if (response.status === 503) {
-          throw new Error("Service Unavailable. Please try again later.");
+        if (!response.ok) {
+          throw new Error("Failed to fetch movies");
         }
-
-        // if (!response.ok) {
-        //   throw new Error("Failed to fetch movies");
-        // }
 
         const data = await response.json();
         console.log(data.results);
@@ -78,6 +70,11 @@ export default function App() {
     setWatchListMovies(watchListMovies.filter((m) => m.id !== movie.id));
   }
 
+  function handleSelectMovie(movie) {
+    setSelectedMovie(movie);
+    window.scrollTo(0, 0);
+  }
+
   return (
     <>
       <Header>
@@ -90,6 +87,13 @@ export default function App() {
       </Header>
 
       <Main>
+        {selectedMovie && (
+          <MovieDetails
+            movieObj={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+          />
+        )}
+
         <WatchList
           movies={watchListMovies}
           isWatchListOpen={isWatchListOpen}
@@ -98,7 +102,11 @@ export default function App() {
 
         {loading && <Loading />}
         {!loading && !error && (
-          <MovieList movies={movies} onAddToList={handleAddToWatchList} />
+          <MovieList
+            movies={movies}
+            onAddToList={handleAddToWatchList}
+            onSelectMovie={handleSelectMovie}
+          />
         )}
         {error && <ErrorMessage message={error} />}
       </Main>
